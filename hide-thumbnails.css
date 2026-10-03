@@ -1,0 +1,44 @@
+/*
+ * Hides thumbnails everywhere on YouTube. Active unless content.js sets
+ * <html data-yt-mild-thumbs="off">. Defaulting to "on" avoids a flash of
+ * thumbnails while the setting is being read.
+ */
+
+/* Thumbnail containers: removed entirely so cards collapse to text. */
+html:not([data-yt-mild-thumbs="off"]) :is(
+  ytd-thumbnail,
+  ytd-playlist-thumbnail,
+  ytd-moving-thumbnail-renderer,
+  ytd-video-preview,
+  yt-thumbnail-view-model,
+  yt-collection-thumbnail-view-model,
+  .ytLockupViewModelContentImage,
+  .yt-lockup-view-model__content-image,
+  .yt-lockup-view-model-wiz__content-image,
+  .shortsLockupViewModelHostThumbnailContainer,
+  .shortsLockupViewModelHostThumbnailParentContainer,
+  .shortsLockupViewModelHostBadge,
+  ytd-notification-renderer .thumbnail-container
+) {
+  display: none !important;
+}
+
+/* Player overlays (poster, end screen, autoplay "up next") use background images. */
+html:not([data-yt-mild-thumbs="off"]) :is(
+  .ytp-cued-thumbnail-overlay-image,
+  .ytp-videowall-still-image,
+  .ytp-modern-videowall-still-image,
+  .ytp-ce-covering-image,
+  .ytp-autonav-endscreen-upnext-thumbnail
+) {
+  background-image: none !important;
+}
+
+/* Fallback for layouts not covered above: any image served from YouTube's thumbnail CDN. */
+html:not([data-yt-mild-thumbs="off"]) :is(
+  img[src*="i.ytimg.com/vi/"],
+  img[src*="i.ytimg.com/vi_webp/"],
+  img[src*="i.ytimg.com/an_webp/"]
+) {
+  visibility: hidden !important;
+}

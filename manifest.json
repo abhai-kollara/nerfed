@@ -1,0 +1,32 @@
+{
+  "manifest_version": 3,
+  "name": "YouTube Mild",
+  "version": "1.3.0",
+  "description": "Removes video thumbnails, Shorts, Playables and channel icons from YouTube.",
+  "permissions": [
+    "storage"
+  ],
+  "action": {
+    "default_title": "YouTube Mild",
+    "default_popup": "popup.html"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "*://*.youtube.com/*"
+      ],
+      "css": [
+        "hide-thumbnails.css",
+        "hide-shorts.css",
+        "hide-playables.css",
+        "hide-channel-icons.css"
+      ],
+      "js": [
+        "settings.js",
+        "content.js"
+      ],
+      "run_at": "document_start",
+      "all_frames": true
+    }
+  ]
+}

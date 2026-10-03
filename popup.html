@@ -1,0 +1,43 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <style>
+      body {
+        margin: 0;
+        padding: 12px 16px;
+        font: 14px system-ui, sans-serif;
+        white-space: nowrap;
+      }
+      label {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        cursor: pointer;
+      }
+      label + label {
+        margin-top: 8px;
+      }
+    </style>
+  </head>
+  <body>
+    <label>
+      <input type="checkbox" name="hideThumbnails">
+      Hide thumbnails
+    </label>
+    <label>
+      <input type="checkbox" name="hideShorts">
+      Hide Shorts
+    </label>
+    <label>
+      <input type="checkbox" name="hidePlayables">
+      Hide Playables
+    </label>
+    <label>
+      <input type="checkbox" name="hideChannelIcons">
+      Hide channel icons
+    </label>
+    <script src="settings.js"></script>
+    <script src="popup.js"></script>
+  </body>
+</html>

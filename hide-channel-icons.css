@@ -1,0 +1,44 @@
+/*
+ * Hides channel icons (avatars) next to videos, comments and posts, in
+ * channel headers, and in the player. Active unless content.js sets
+ * <html data-yt-mild-channel-icons="off">. Your own account picture in the
+ * top bar is not matched.
+ */
+
+html:not([data-yt-mild-channel-icons="off"]) :is(
+  /* Video cards: search, home, subscriptions, ads */
+  ytd-video-renderer :is(#channel-thumbnail, #avatar),
+  .ytAvatarStackViewModelAvatars,
+  .ytLockupMetadataViewModelAvatar,
+  ytd-rich-grid-media #avatar-link,
+  ad-avatar-view-model,
+
+  /* Channel results, featured channels, channel and topic page headers */
+  ytd-channel-renderer #avatar-section,
+  ytd-grid-channel-renderer yt-img-shadow,
+  yt-decorated-avatar-view-model,
+  .ytPageHeaderViewModelHeadlineImage,
+
+  /* Watch page: owner, comments, creator hearts */
+  ytd-video-owner-renderer #avatar,
+  ytd-comment-view-model #author-thumbnail,
+  ytd-comment-simplebox-renderer #author-thumbnail,
+  ytd-creator-heart-renderer #hearted-thumbnail,
+
+  /* Posts, notifications, live chat */
+  ytd-post-renderer #author-thumbnail,
+  ytd-notification-renderer yt-img-shadow:not(.thumbnail-container *),
+  yt-live-chat-app #author-photo,
+
+  /* Player: channel watermark, title-bar and end-screen channel icons */
+  .iv-branding,
+  .ytp-title-channel,
+  .ytp-ce-channel
+) {
+  display: none !important;
+}
+
+/* Sidebar subscriptions: keep the space so names line up with other entries. */
+html:not([data-yt-mild-channel-icons="off"]) ytd-guide-entry-renderer yt-img-shadow {
+  visibility: hidden !important;
+}
