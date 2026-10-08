@@ -2,41 +2,64 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <style>
-      body {
-        margin: 0;
-        padding: 12px 16px;
-        font: 14px system-ui, sans-serif;
-        white-space: nowrap;
-      }
-      label {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        cursor: pointer;
-      }
-      label + label {
-        margin-top: 8px;
-      }
-    </style>
+    <link rel="stylesheet" href="popup.css">
   </head>
   <body>
-    <label>
-      <input type="checkbox" name="hideThumbnails">
-      Hide thumbnails
+    <header>
+      <!-- The extension icon (icons/icon.svg), cropped to its tile and themed. -->
+      <svg width="22" height="22" viewBox="8 8 112 112" aria-hidden="true">
+        <rect x="8" y="8" width="112" height="112" rx="24" style="fill: var(--nerf)"/>
+        <rect x="32" y="48" width="64" height="32" rx="16" fill="#fff" fill-opacity="0.45"/>
+        <rect x="16" y="64" width="96" height="8" rx="4" fill="#fff"/>
+      </svg>
+      <h1>Nerfed</h1>
+    </header>
+
+    <h2>Feeds</h2>
+    <p class="note"></p>
+    <label class="row">
+      <span class="name">Thumbnails</span>
+      <input class="switch" type="checkbox" role="switch" name="hideThumbnails" aria-label="Hide thumbnails">
     </label>
-    <label>
-      <input type="checkbox" name="hideShorts">
-      Hide Shorts
+    <label class="row">
+      <span class="name">Shorts</span>
+      <input class="switch" type="checkbox" role="switch" name="hideShorts" aria-label="Hide Shorts">
     </label>
-    <label>
-      <input type="checkbox" name="hidePlayables">
-      Hide Playables
+    <label class="row">
+      <span class="name">Playables</span>
+      <input class="switch" type="checkbox" role="switch" name="hidePlayables" aria-label="Hide Playables">
     </label>
-    <label>
-      <input type="checkbox" name="hideChannelIcons">
-      Hide channel icons
+    <label class="row">
+      <span class="name">Channel icons</span>
+      <input class="switch" type="checkbox" role="switch" name="hideChannelIcons" aria-label="Hide channel icons">
     </label>
+
+    <h2>Video page</h2>
+    <label class="row">
+      <span class="name">Comments</span>
+      <input class="switch" type="checkbox" role="switch" name="hideComments" aria-label="Hide comments">
+    </label>
+    <label class="row">
+      <span class="name">Suggested videos</span>
+      <input class="switch" type="checkbox" role="switch" name="hideSuggested" aria-label="Hide suggested videos">
+    </label>
+
+    <h2>Modes</h2>
+    <label class="row">
+      <span>
+        Table layout
+        <span class="desc">Lists videos as compact rows. Experimental.</span>
+      </span>
+      <input class="switch" type="checkbox" role="switch" name="tableLayout">
+    </label>
+    <label class="row">
+      <span>
+        Search only
+        <span class="desc">The home page shows just the search box.</span>
+      </span>
+      <input class="switch" type="checkbox" role="switch" name="searchOnly">
+    </label>
+
     <script src="settings.js"></script>
     <script src="popup.js"></script>
   </body>

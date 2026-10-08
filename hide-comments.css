@@ -1,0 +1,14 @@
+/*
+ * Removes the comments section from video pages. Hidden comments are never
+ * scrolled into view, so YouTube doesn't load them either. Active unless
+ * content.js sets <html data-yt-nerfed-comments="off">.
+ */
+
+html:not([data-yt-nerfed-comments="off"]) :is(
+  ytd-watch-flexy ytd-comments,
+  ytd-watch-flexy #ghost-comment-section,
+  ytd-comments-entry-point-header-renderer,
+  ytd-engagement-panel-section-list-renderer[target-id="engagement-panel-comments-section"]
+) {
+  display: none !important;
+}

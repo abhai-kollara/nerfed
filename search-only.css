@@ -1,0 +1,125 @@
+/*
+ * Search-only mode: the home page drops its feed and shows the search box,
+ * enlarged, in the middle of the empty page. The top bar (menu, logo, mic,
+ * account buttons) and the sidebar stay as usual. Other pages are untouched.
+ *
+ * Applies when content.js sets <html data-yt-nerfed-search-only="on"> and the
+ * home page is the one on screen. YouTube keeps visited pages in the DOM and
+ * marks the inactive ones [hidden], so this switches exactly when the home
+ * page appears or goes away.
+ */
+
+/* Where the page area starts (right of the sidebar), so the box is centred in it. */
+html[data-yt-nerfed-search-only="on"] ytd-app:has(ytd-page-manager > ytd-browse[page-subtype="home"]:not([hidden])) {
+  --yt-nerfed-content-left: 0px;
+}
+
+html[data-yt-nerfed-search-only="on"] ytd-app[mini-guide-visible]:has(ytd-page-manager > ytd-browse[page-subtype="home"]:not([hidden])) {
+  --yt-nerfed-content-left: 72px;
+}
+
+html[data-yt-nerfed-search-only="on"] ytd-app[guide-persistent-and-visible]:has(ytd-page-manager > ytd-browse[page-subtype="home"]:not([hidden])) {
+  --yt-nerfed-content-left: 240px;
+}
+
+/* No feed or category chips. */
+html[data-yt-nerfed-search-only="on"] ytd-app:has(ytd-page-manager > ytd-browse[page-subtype="home"]:not([hidden])) :is(
+  ytd-browse[page-subtype="home"],
+  ytd-masthead #search-button-narrow
+) {
+  display: none !important;
+}
+
+/*
+ * Lift the search box (with the mic beside it) out of the top bar and into
+ * the page, a third of the way down. The top bar's fixed container sits at
+ * the window's top-left, so it's the positioning context.
+ */
+html[data-yt-nerfed-search-only="on"] ytd-app:has(ytd-page-manager > ytd-browse[page-subtype="home"]:not([hidden])) ytd-masthead #center {
+  position: absolute;
+  top: 33vh;
+  left: calc(var(--yt-nerfed-content-left) + (100% - var(--yt-nerfed-content-left)) / 2);
+  transform: translateX(-50%);
+  /* Leave room on both sides for the mic, which hangs off the right edge. */
+  width: min(720px, calc(100% - var(--yt-nerfed-content-left) - 136px));
+  max-width: none;
+  margin: 0;
+}
+
+/*
+ * The logo moves from the top bar to just above the search box, at twice its
+ * size. Its padding is dropped and the country code hangs off its right edge,
+ * so the centred box is the wordmark itself; scaling from the bottom keeps
+ * the gap to the search box fixed.
+ */
+html[data-yt-nerfed-search-only="on"] ytd-app:has(ytd-page-manager > ytd-browse[page-subtype="home"]:not([hidden])) ytd-masthead ytd-topbar-logo-renderer#logo {
+  position: absolute;
+  top: calc(33vh - 32px - 20px);
+  left: calc(var(--yt-nerfed-content-left) + (100% - var(--yt-nerfed-content-left)) / 2);
+  width: auto !important;
+  height: 20px;
+  transform: translateX(-50%) scale(2);
+  transform-origin: center bottom;
+}
+
+html[data-yt-nerfed-search-only="on"] ytd-app:has(ytd-page-manager > ytd-browse[page-subtype="home"]:not([hidden])) ytd-masthead ytd-topbar-logo-renderer#logo :is(a#logo, a#logo > div) {
+  height: 20px;
+}
+
+html[data-yt-nerfed-search-only="on"] ytd-app:has(ytd-page-manager > ytd-browse[page-subtype="home"]:not([hidden])) ytd-masthead #logo-icon {
+  padding: 0 !important;
+}
+
+html[data-yt-nerfed-search-only="on"] ytd-app:has(ytd-page-manager > ytd-browse[page-subtype="home"]:not([hidden])) ytd-masthead #country-code {
+  position: absolute;
+  top: -6px;
+  left: 100%;
+  margin: 0 0 0 2px;
+}
+
+/* The mic sits just outside the box so the box itself is what's centred. */
+html[data-yt-nerfed-search-only="on"] ytd-app:has(ytd-page-manager > ytd-browse[page-subtype="home"]:not([hidden])) ytd-masthead #voice-search-button {
+  position: absolute;
+  top: 8px;
+  left: 100%;
+  margin-left: 12px;
+}
+
+html[data-yt-nerfed-search-only="on"] ytd-app:has(ytd-page-manager > ytd-browse[page-subtype="home"]:not([hidden])) yt-searchbox {
+  display: flex !important;
+  flex: 1;
+  max-width: none;
+  margin: 0;
+}
+
+/* A larger box: taller field, bigger text, wider search button. */
+html[data-yt-nerfed-search-only="on"] ytd-app:has(ytd-page-manager > ytd-browse[page-subtype="home"]:not([hidden])) .ytSearchboxComponentInputContainer {
+  height: 56px;
+}
+
+/*
+ * Unfocused, YouTube leaves a 32px gap left of the box for the magnifier it
+ * shows on focus, which would pull the box off-centre. Use the focused
+ * geometry in both states so the box stays centred and the text doesn't move.
+ */
+html[data-yt-nerfed-search-only="on"] ytd-app:has(ytd-page-manager > ytd-browse[page-subtype="home"]:not([hidden])) .ytSearchboxComponentInputBox {
+  height: auto;
+  align-self: stretch;
+  margin-left: 0 !important;
+  padding-left: 48px !important;
+}
+
+html[data-yt-nerfed-search-only="on"] ytd-app:has(ytd-page-manager > ytd-browse[page-subtype="home"]:not([hidden])) .ytSearchboxComponentInput {
+  font-size: 20px;
+  height: 28px;
+}
+
+html[data-yt-nerfed-search-only="on"] ytd-app:has(ytd-page-manager > ytd-browse[page-subtype="home"]:not([hidden])) .ytSearchboxComponentSearchButton {
+  height: 56px;
+  width: 80px;
+}
+
+/* YouTube places suggestions a fixed distance below a 40px box; move them under the taller one. */
+html[data-yt-nerfed-search-only="on"] ytd-app:has(ytd-page-manager > ytd-browse[page-subtype="home"]:not([hidden])) .ytSearchboxComponentSuggestionsContainer {
+  top: 60px !important;
+}

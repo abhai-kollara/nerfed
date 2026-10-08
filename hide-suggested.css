@@ -1,0 +1,22 @@
+/*
+ * Removes the suggested videos on video pages (the right-hand column, or
+ * below the video in narrow windows). Playlists, live chat and open panels
+ * such as the transcript stay. Active unless content.js sets
+ * <html data-yt-nerfed-suggested="off">.
+ */
+
+html:not([data-yt-nerfed-suggested="off"]) ytd-watch-flexy #related {
+  display: none !important;
+}
+
+/*
+ * With nothing else in the right-hand column, drop the column itself:
+ * YouTube then centres the video and makes it larger.
+ */
+html:not([data-yt-nerfed-suggested="off"]) ytd-watch-flexy #secondary:not(:has(
+  ytd-playlist-panel-renderer#playlist:not([hidden]),
+  #chat-container ytd-live-chat-frame,
+  ytd-engagement-panel-section-list-renderer[visibility="ENGAGEMENT_PANEL_VISIBILITY_EXPANDED"]
+)) {
+  display: none !important;
+}

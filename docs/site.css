@@ -1,0 +1,346 @@
+/* Nerfed website. Same palette as the extension menu (popup.css). */
+
+:root {
+  color-scheme: light dark;
+  --paper: #fcfcfd;
+  --ink: #1e1e22;
+  --muted: #6b6b74;
+  --line: #e6e6ea;
+  --nerf: #c23b47;
+  --page: 1040px;
+  --gutter: 24px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --paper: #161619;
+    --ink: #ededf0;
+    --muted: #9a9aa3;
+    --line: #2a2a2f;
+    --nerf: #ef6b75;
+  }
+}
+
+@media (max-width: 600px) {
+  :root {
+    --gutter: 16px;
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font: 17px/1.55 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+a {
+  color: inherit;
+  text-decoration-color: var(--nerf);
+  text-decoration-thickness: 0.08em;
+  text-underline-offset: 0.18em;
+}
+
+a:hover {
+  color: var(--nerf);
+}
+
+a:focus-visible {
+  outline: 2px solid var(--nerf);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+.wrap {
+  max-width: var(--page);
+  margin: 0 auto;
+  padding: 0 var(--gutter);
+}
+
+/* Header */
+
+.site-header .wrap {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 18px;
+  font-weight: 650;
+  letter-spacing: -0.01em;
+  text-decoration: none;
+}
+
+.brand:hover {
+  color: inherit;
+}
+
+.brand svg {
+  width: 26px;
+  height: 26px;
+}
+
+.site-header nav a {
+  color: var(--muted);
+  font-size: 15px;
+  text-decoration: none;
+}
+
+.site-header nav a:hover {
+  color: var(--ink);
+}
+
+/* Hero: the things Nerfed hides, struck out, and the one thing it keeps. */
+
+/* Top and bottom only: the side padding comes from .wrap. */
+.hero {
+  padding-top: 56px;
+  padding-bottom: 88px;
+}
+
+.nerf-list {
+  margin: 0 0 40px;
+  font-size: clamp(40px, 8vw, 84px);
+  font-weight: 750;
+  line-height: 1.08;
+  letter-spacing: -0.035em;
+}
+
+.nerf-list > * {
+  display: block;
+  width: fit-content;
+}
+
+.nerf-list del {
+  color: var(--muted);
+  text-decoration: none;
+  background: linear-gradient(var(--nerf), var(--nerf)) no-repeat 0 56% / 100% 0.09em;
+}
+
+.nerf-list .kept {
+  margin-top: 0.12em;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .nerf-list del {
+    animation: strike 520ms cubic-bezier(0.6, 0, 0.2, 1) both;
+    animation-delay: calc(250ms + var(--i) * 170ms);
+  }
+
+  @keyframes strike {
+    from {
+      color: var(--ink);
+      background-size: 0% 0.09em;
+    }
+  }
+}
+
+.lede {
+  max-width: 34rem;
+  margin: 0 0 28px;
+  font-size: 20px;
+  line-height: 1.5;
+  color: var(--muted);
+}
+
+.lede strong {
+  color: var(--ink);
+  font-weight: 600;
+}
+
+.availability {
+  display: inline-block;
+  margin: 0;
+  padding: 10px 18px;
+  border: 1.5px solid var(--line);
+  border-radius: 999px;
+  font-size: 15px;
+  color: var(--muted);
+}
+
+a.availability {
+  border-color: var(--nerf);
+  background: var(--nerf);
+  color: #fff;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+/* Sections */
+
+section {
+  padding: 72px 0;
+  border-top: 1px solid var(--line);
+}
+
+h2 {
+  margin: 0 0 8px;
+  font-size: 28px;
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+}
+
+.section-intro {
+  max-width: 34rem;
+  margin: 0 0 36px;
+  color: var(--muted);
+}
+
+/* Screenshots */
+
+.shots {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 40px 28px;
+}
+
+@media (max-width: 760px) {
+  .shots {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+figure {
+  margin: 0;
+}
+
+figure img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+}
+
+figcaption {
+  margin-top: 12px;
+  font-size: 15px;
+  color: var(--muted);
+}
+
+figcaption b {
+  color: var(--ink);
+  font-weight: 600;
+}
+
+/* Options */
+
+.options {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 32px;
+}
+
+@media (max-width: 860px) {
+  .options {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.options h3 {
+  margin: 0 0 12px;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+.options dl {
+  margin: 0;
+}
+
+.options dt {
+  font-weight: 600;
+}
+
+.options dd {
+  margin: 2px 0 16px;
+  font-size: 15px;
+  color: var(--muted);
+}
+
+.options .note {
+  margin: 4px 0 0;
+  font-size: 15px;
+  color: var(--muted);
+}
+
+/* Privacy summary */
+
+.privacy-summary p {
+  max-width: 34rem;
+  margin: 0 0 12px;
+}
+
+/* Long-form pages (privacy policy) */
+
+.doc {
+  max-width: 40rem;
+  padding: 40px 0 72px;
+}
+
+.doc h1 {
+  margin: 0 0 6px;
+  font-size: clamp(34px, 6vw, 48px);
+  font-weight: 750;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+}
+
+.doc .updated {
+  margin: 0 0 32px;
+  color: var(--muted);
+  font-size: 15px;
+}
+
+.doc h2 {
+  margin-top: 32px;
+  font-size: 21px;
+}
+
+.doc p,
+.doc li {
+  margin: 0 0 12px;
+}
+
+.doc ul {
+  padding-left: 1.2em;
+}
+
+code {
+  font-size: 0.9em;
+}
+
+/* Footer */
+
+.site-footer {
+  border-top: 1px solid var(--line);
+  font-size: 14px;
+  color: var(--muted);
+}
+
+.site-footer .wrap {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 8px 24px;
+  padding-top: 28px;
+  padding-bottom: 40px;
+}
+
+.site-footer p {
+  margin: 0;
+  max-width: 40rem;
+}

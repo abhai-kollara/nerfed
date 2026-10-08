@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Nerfed – a calmer YouTube</title>
+  <meta name="description" content="Nerfed is a Chrome extension that hides thumbnails, Shorts, comments and suggested videos on YouTube, or switches it to a table or search-only layout.">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="site.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="wrap">
+      <a class="brand" href="./">
+        <svg viewBox="8 8 112 112" aria-hidden="true">
+          <rect x="8" y="8" width="112" height="112" rx="24" fill="var(--nerf)"/>
+          <rect x="32" y="48" width="64" height="32" rx="16" fill="#fff" fill-opacity="0.45"/>
+          <rect x="16" y="64" width="96" height="8" rx="4" fill="#fff"/>
+        </svg>
+        Nerfed
+      </a>
+      <nav><a href="privacy.html">Privacy</a></nav>
+    </div>
+  </header>
+
+  <main>
+    <div class="wrap hero">
+      <h1 class="nerf-list">
+        <del style="--i: 0">Thumbnails</del>
+        <del style="--i: 1">Shorts</del>
+        <del style="--i: 2">Comments</del>
+        <del style="--i: 3">Suggested videos</del>
+        <span class="kept">The video you came for.</span>
+      </h1>
+      <p class="lede"><strong>Nerfed</strong> is a Chrome extension that hides the parts of YouTube that compete for your attention. Switch each one off from the toolbar.</p>
+      <!-- Once the extension is listed, replace this with:
+           <a class="availability" href="STORE-LISTING-URL">Add to Chrome</a> -->
+      <p class="availability">Coming soon to the Chrome Web Store</p>
+    </div>
+
+    <section>
+      <div class="wrap">
+        <h2>YouTube, with less in the way</h2>
+        <p class="section-intro">Everything is a switch in the menu, and changes apply straight away to any open YouTube tab.</p>
+        <div class="shots">
+          <figure>
+            <img src="screenshots/1-menu.png" width="1280" height="800" alt="YouTube search results without thumbnails or channel icons, with the Nerfed menu open showing its switches.">
+            <figcaption><b>Text instead of thumbnails.</b> Search results and feeds show title, channel and views.</figcaption>
+          </figure>
+          <figure>
+            <img src="screenshots/2-table-layout.png" width="1280" height="800" alt="YouTube search results shown as a table: one row per video with title, channel, views and age." loading="lazy">
+            <figcaption><b>Table layout.</b> One compact row per video: title, channel, views, age.</figcaption>
+          </figure>
+          <figure>
+            <img src="screenshots/3-search-only.png" width="1280" height="800" alt="YouTube's home page showing only the logo and a large search box." loading="lazy">
+            <figcaption><b>Search only.</b> The home page is just the logo and a search box.</figcaption>
+          </figure>
+          <figure>
+            <img src="screenshots/4-video-page.png" width="1280" height="800" alt="A YouTube video page with a large centred video and no suggested videos column." loading="lazy">
+            <figcaption><b>Video pages.</b> No comments, no suggestions; the video gets the room.</figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="wrap">
+        <h2>What you can switch off</h2>
+        <p class="section-intro">The hide options start on; switch any of them back off.</p>
+        <div class="options">
+          <div>
+            <h3>Feeds</h3>
+            <dl>
+              <dt>Thumbnails</dt>
+              <dd>Video cards become text: title, channel, views and age.</dd>
+              <dt>Shorts</dt>
+              <dd>Shelves and single Shorts go, and Shorts links open in the regular player.</dd>
+              <dt>Playables</dt>
+              <dd>YouTube's games are removed.</dd>
+              <dt>Channel icons</dt>
+              <dd>No avatars next to videos, comments or posts.</dd>
+            </dl>
+          </div>
+          <div>
+            <h3>Video page</h3>
+            <dl>
+              <dt>Comments</dt>
+              <dd>The comments section is removed and never loaded.</dd>
+              <dt>Suggested videos</dt>
+              <dd>The recommendations column goes, so the video is centred and larger. Playlists and live chat stay.</dd>
+            </dl>
+          </div>
+          <div>
+            <h3>Modes</h3>
+            <dl>
+              <dt>Table layout</dt>
+              <dd>Feeds and search results as a compact list. Experimental.</dd>
+              <dt>Search only</dt>
+              <dd>The home page shows just the logo and a large search box.</dd>
+            </dl>
+            <p class="note">One mode at a time. While a mode is on, the feed options stay on.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="privacy-summary">
+      <div class="wrap">
+        <h2>Nerfed collects nothing</h2>
+        <p>It runs only on www.youtube.com, makes no network requests of its own and has no analytics or tracking. Your settings are kept by Chrome.</p>
+        <p><a href="privacy.html">Read the privacy policy</a></p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <p>Nerfed is an independent project, not affiliated with or endorsed by YouTube or Google. YouTube is a trademark of Google LLC.</p>
+      <a href="privacy.html">Privacy policy</a>
+    </div>
+  </footer>
+</body>
+</html>

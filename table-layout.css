@@ -1,0 +1,275 @@
+/*
+ * Experimental: lists videos as compact table rows (title, channel, views,
+ * age) on the home feed, subscriptions, channel video tabs and search
+ * results. Applies only when content.js sets <html data-yt-nerfed-table="on">,
+ * so it never flashes for people who have it switched off.
+ *
+ * Like search only, it locks the feed hide options on (see effectiveSettings
+ * in settings.js). Thumbnails, channel icons and verified badges are hidden
+ * inside rows here as well, since they don't fit a table line.
+ */
+
+html[data-yt-nerfed-table="on"] {
+  --yt-nerfed-channel-width: 200px;
+  --yt-nerfed-views-width: 100px;
+  --yt-nerfed-age-width: 110px;
+  --yt-nerfed-divider: rgba(0, 0, 0, 0.1);
+  --yt-nerfed-hover: rgba(0, 0, 0, 0.05);
+}
+
+/* YouTube marks its dark theme with <html dark>. */
+html[data-yt-nerfed-table="on"][dark] {
+  --yt-nerfed-divider: rgba(255, 255, 255, 0.12);
+  --yt-nerfed-hover: rgba(255, 255, 255, 0.07);
+}
+
+/* A channel's own page lists only its videos, so it has no channel column. */
+html[data-yt-nerfed-table="on"] ytd-browse[page-subtype="channels"] {
+  --yt-nerfed-channel-width: 0px;
+}
+
+/* ---------- Feed grids: home, subscriptions, channel tabs ---------- */
+
+/* One full-width row per video instead of a multi-column grid. */
+html[data-yt-nerfed-table="on"] ytd-rich-grid-renderer ytd-rich-item-renderer:has(yt-lockup-view-model) {
+  width: 100% !important;
+  margin: 0 !important;
+}
+
+html[data-yt-nerfed-table="on"] ytd-rich-grid-renderer yt-lockup-view-model {
+  display: block;
+  border-bottom: 1px solid var(--yt-nerfed-divider);
+}
+
+html[data-yt-nerfed-table="on"] ytd-rich-grid-renderer yt-lockup-view-model:hover {
+  background: var(--yt-nerfed-hover);
+}
+
+html[data-yt-nerfed-table="on"] ytd-rich-grid-renderer .ytLockupViewModelHost {
+  flex-direction: row !important;
+  align-items: center;
+  padding: 4px 8px;
+}
+
+html[data-yt-nerfed-table="on"] ytd-rich-grid-renderer :is(
+  .ytLockupViewModelContentImage,
+  yt-lockup-view-model yt-touch-feedback-shape,
+  .ytLockupMetadataViewModelAvatar,
+  .ytContentMetadataViewModelDelimiter,
+  .ytContentMetadataViewModelIcon,
+  .ytContentMetadataViewModelMetadataRow ~ .ytContentMetadataViewModelMetadataRow
+) {
+  display: none !important;
+}
+
+html[data-yt-nerfed-table="on"] ytd-rich-grid-renderer :is(.ytLockupViewModelMetadata, .ytLockupMetadataViewModelTextContainer) {
+  flex: 1;
+  min-width: 0;
+}
+
+html[data-yt-nerfed-table="on"] ytd-rich-grid-renderer yt-lockup-metadata-view-model {
+  align-items: center;
+}
+
+html[data-yt-nerfed-table="on"] ytd-rich-grid-renderer .ytLockupMetadataViewModelTextContainer {
+  flex-direction: row !important;
+  align-items: center;
+  gap: 16px;
+}
+
+html[data-yt-nerfed-table="on"] ytd-rich-grid-renderer .ytLockupMetadataViewModelHeadingReset {
+  flex: 1;
+  min-width: 0;
+  margin: 0;
+}
+
+html[data-yt-nerfed-table="on"] ytd-rich-grid-renderer .ytLockupMetadataViewModelTitle {
+  display: block !important;
+  max-height: none !important;
+  -webkit-line-clamp: unset !important;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 14px;
+  line-height: 20px;
+}
+
+html[data-yt-nerfed-table="on"] ytd-rich-grid-renderer :is(
+  .ytLockupMetadataViewModelTitle,
+  .ytLockupMetadataViewModelTitle *,
+  .ytContentMetadataViewModelMetadataRow *
+) {
+  white-space: nowrap !important;
+}
+
+html[data-yt-nerfed-table="on"] ytd-rich-grid-renderer .ytLockupMetadataViewModelMetadata {
+  flex: none;
+  margin: 0;
+  font-size: 13px;
+}
+
+/*
+ * The metadata row reads: channel, [verified], [collaborator…], ▷ icon,
+ * views, age. Each part is placed in a fixed grid column so missing parts
+ * leave an empty cell instead of shifting the rest:
+ *   channel | icon | views | age
+ */
+html[data-yt-nerfed-table="on"] ytd-rich-grid-renderer .ytContentMetadataViewModelMetadataRow {
+  display: grid !important;
+  grid-template-columns: var(--yt-nerfed-channel-width) 16px var(--yt-nerfed-views-width) var(--yt-nerfed-age-width);
+  align-items: center;
+}
+
+html[data-yt-nerfed-table="on"] ytd-rich-grid-renderer .ytContentMetadataViewModelMetadataRow > * {
+  grid-row: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+html[data-yt-nerfed-table="on"] ytd-rich-grid-renderer .ytContentMetadataViewModelLeadingIcon {
+  grid-column: 2;
+}
+
+/* Views: the part right before the age. */
+html[data-yt-nerfed-table="on"] ytd-rich-grid-renderer .ytContentMetadataViewModelMetadataText:has(+ .ytContentMetadataViewModelDelimiter + .ytContentMetadataViewModelMetadataTextLastPart) {
+  grid-column: 3;
+}
+
+html[data-yt-nerfed-table="on"] ytd-rich-grid-renderer .ytContentMetadataViewModelMetadataTextLastPart {
+  grid-column: 4;
+}
+
+/* Rows without a views icon (live streams: "38k watching") put their stat under views. */
+html[data-yt-nerfed-table="on"] ytd-rich-grid-renderer .ytContentMetadataViewModelMetadataRow:not(:has(> .ytContentMetadataViewModelLeadingIcon)) > .ytContentMetadataViewModelMetadataTextLastPart {
+  grid-column: 3 / span 2;
+}
+
+/* Channel: the first part. Declared last so it wins over the views rule for "channel, stat" rows. */
+html[data-yt-nerfed-table="on"] ytd-rich-grid-renderer .ytContentMetadataViewModelMetadataRow > .ytContentMetadataViewModelMetadataText:first-child {
+  grid-column: 1;
+  padding-right: 16px;
+}
+
+/* Collaborations ("and <channel>"): keep the table to the main channel. */
+html[data-yt-nerfed-table="on"] ytd-rich-grid-renderer .ytContentMetadataViewModelMetadataText:not(
+  :first-child,
+  .ytContentMetadataViewModelMetadataTextLastPart,
+  .ytContentMetadataViewModelLeadingIcon + *
+) {
+  display: none !important;
+}
+
+html[data-yt-nerfed-table="on"] ytd-browse[page-subtype="channels"] ytd-rich-grid-renderer .ytContentMetadataViewModelMetadataRow > .ytContentMetadataViewModelMetadataText:not(
+  .ytContentMetadataViewModelMetadataTextLastPart,
+  .ytContentMetadataViewModelLeadingIcon + *
+) {
+  display: none !important;
+}
+
+/* ---------- Search results ---------- */
+
+html[data-yt-nerfed-table="on"] ytd-search ytd-video-renderer {
+  margin-top: 0 !important;
+  padding: 2px 8px;
+  border-bottom: 1px solid var(--yt-nerfed-divider);
+}
+
+html[data-yt-nerfed-table="on"] ytd-search ytd-video-renderer:hover {
+  background: var(--yt-nerfed-hover);
+}
+
+/* Lay the result out as one grid row: title | channel | icon | views | age | menu. */
+html[data-yt-nerfed-table="on"] ytd-search ytd-video-renderer .text-wrapper {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) var(--yt-nerfed-channel-width) 16px var(--yt-nerfed-views-width) var(--yt-nerfed-age-width) 40px;
+  align-items: center;
+  max-width: none !important;
+}
+
+/* Flatten the wrappers so title, channel and stats become cells of that grid. */
+html[data-yt-nerfed-table="on"] ytd-search ytd-video-renderer :is(#meta, #title-wrapper, ytd-video-meta-block, #metadata, #metadata-line) {
+  display: contents !important;
+}
+
+html[data-yt-nerfed-table="on"] ytd-search ytd-video-renderer :is(
+  ytd-thumbnail,
+  .text-wrapper > :not(#meta, #channel-info),
+  #byline-container,
+  #additional-metadata-line,
+  #metadata-line > :not(span.inline-metadata-item),
+  #channel-thumbnail,
+  #channel-info #avatar,
+  #channel-info ytd-badge-supported-renderer
+) {
+  display: none !important;
+}
+
+html[data-yt-nerfed-table="on"] ytd-search ytd-video-renderer .title-and-badge {
+  grid-area: 1 / 1;
+  min-width: 0;
+  margin: 0 16px 0 0;
+}
+
+html[data-yt-nerfed-table="on"] ytd-search ytd-video-renderer #video-title {
+  display: block;
+  max-height: none;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+html[data-yt-nerfed-table="on"] ytd-search ytd-video-renderer #video-title yt-formatted-string {
+  display: inline !important;
+  -webkit-line-clamp: unset !important;
+  white-space: nowrap;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 20px;
+}
+
+html[data-yt-nerfed-table="on"] ytd-search ytd-video-renderer #channel-info {
+  grid-area: 1 / 2;
+  min-width: 0;
+  margin: 0 !important;
+  padding: 0 16px 0 0 !important;
+  overflow: hidden;
+}
+
+html[data-yt-nerfed-table="on"] ytd-search ytd-video-renderer :is(#channel-info, #metadata-line) :is(yt-formatted-string, span, a) {
+  font-size: 13px;
+  white-space: nowrap;
+}
+
+html[data-yt-nerfed-table="on"] ytd-search ytd-video-renderer #metadata-line > span.inline-metadata-item:nth-of-type(1) {
+  grid-area: 1 / 4;
+}
+
+html[data-yt-nerfed-table="on"] ytd-search ytd-video-renderer #metadata-line > span.inline-metadata-item:nth-of-type(2) {
+  grid-area: 1 / 5;
+}
+
+/* YouTube draws "•" between stats; columns make it redundant. */
+html[data-yt-nerfed-table="on"] ytd-search ytd-video-renderer #metadata-line > span.inline-metadata-item::before {
+  content: none !important;
+}
+
+html[data-yt-nerfed-table="on"] ytd-search ytd-video-renderer #menu {
+  grid-area: 1 / 6;
+}
+
+/* ---------- Both ---------- */
+
+/* Show each row's ⋮ menu only on hover or keyboard focus. */
+html[data-yt-nerfed-table="on"] :is(
+  ytd-rich-grid-renderer yt-lockup-view-model .ytLockupMetadataViewModelMenuButton,
+  ytd-search ytd-video-renderer #menu
+) {
+  opacity: 0;
+}
+
+html[data-yt-nerfed-table="on"] :is(
+  ytd-rich-grid-renderer yt-lockup-view-model:is(:hover, :focus-within) .ytLockupMetadataViewModelMenuButton,
+  ytd-search ytd-video-renderer:is(:hover, :focus-within) #menu
+) {
+  opacity: 1;
+}

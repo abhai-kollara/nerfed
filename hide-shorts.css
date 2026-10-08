@@ -1,10 +1,10 @@
 /*
  * Removes Shorts from YouTube: shelves, individual Shorts in feeds and
  * results, and the Shorts entries in navigation. Active unless content.js
- * sets <html data-yt-mild-shorts="off">.
+ * sets <html data-yt-nerfed-shorts="off">.
  */
 
-html:not([data-yt-mild-shorts="off"]) :is(
+html:not([data-yt-nerfed-shorts="off"]) :is(
   /* Shelves (search, home, subscriptions, watch sidebar) */
   grid-shelf-view-model:has(ytm-shorts-lockup-view-model, ytm-shorts-lockup-view-model-v2),
   ytd-rich-section-renderer:has(ytm-shorts-lockup-view-model, ytm-shorts-lockup-view-model-v2),
@@ -25,7 +25,7 @@ html:not([data-yt-mild-shorts="off"]) :is(
   ytd-guide-entry-renderer:has(> a#endpoint[title="Shorts"]),
   ytd-mini-guide-entry-renderer:has(a[href="/shorts/"]),
   yt-tab-shape[tab-title="Shorts"],
-  yt-chip-cloud-chip-renderer[data-yt-mild-shorts-chip]
+  yt-chip-cloud-chip-renderer[data-yt-nerfed-shorts-chip]
 ) {
   display: none !important;
 }

@@ -1,11 +1,11 @@
 /*
  * Hides channel icons (avatars) next to videos, comments and posts, in
  * channel headers, and in the player. Active unless content.js sets
- * <html data-yt-mild-channel-icons="off">. Your own account picture in the
+ * <html data-yt-nerfed-channel-icons="off">. Your own account picture in the
  * top bar is not matched.
  */
 
-html:not([data-yt-mild-channel-icons="off"]) :is(
+html:not([data-yt-nerfed-channel-icons="off"]) :is(
   /* Video cards: search, home, subscriptions, ads */
   ytd-video-renderer :is(#channel-thumbnail, #avatar),
   .ytAvatarStackViewModelAvatars,
@@ -39,6 +39,6 @@ html:not([data-yt-mild-channel-icons="off"]) :is(
 }
 
 /* Sidebar subscriptions: keep the space so names line up with other entries. */
-html:not([data-yt-mild-channel-icons="off"]) ytd-guide-entry-renderer yt-img-shadow {
+html:not([data-yt-nerfed-channel-icons="off"]) ytd-guide-entry-renderer yt-img-shadow {
   visibility: hidden !important;
 }

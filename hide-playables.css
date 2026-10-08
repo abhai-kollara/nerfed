@@ -1,10 +1,10 @@
 /*
  * Removes YouTube Playables (games): shelves and game cards in feeds, and the
  * sidebar entry. Active unless content.js sets
- * <html data-yt-mild-playables="off">.
+ * <html data-yt-nerfed-playables="off">.
  */
 
-html:not([data-yt-mild-playables="off"]) :is(
+html:not([data-yt-nerfed-playables="off"]) :is(
   ytd-rich-section-renderer:has(mini-game-card-view-model),
   grid-shelf-view-model:has(mini-game-card-view-model),
   ytd-rich-item-renderer:has(mini-game-card-view-model),

@@ -1,22 +1,24 @@
-// Each setting maps to an attribute on <html> that the CSS files key off.
-// The attribute is set to "off" only when a setting is disabled, so hiding
-// applies from the first paint, before settings have loaded.
+// Each setting maps to an attribute on <html>, set to "on" or "off", that the
+// CSS files key off. Before settings have loaded there is no attribute, so
+// the CSS falls back to each setting's default: hide-*.css match unless
+// "off", the modes (table-layout.css, search-only.css) only match "on".
 const ATTRS = {
-  hideThumbnails: 'data-yt-mild-thumbs',
-  hideShorts: 'data-yt-mild-shorts',
-  hidePlayables: 'data-yt-mild-playables',
-  hideChannelIcons: 'data-yt-mild-channel-icons',
+  hideThumbnails: 'data-yt-nerfed-thumbs',
+  hideShorts: 'data-yt-nerfed-shorts',
+  hidePlayables: 'data-yt-nerfed-playables',
+  hideChannelIcons: 'data-yt-nerfed-channel-icons',
+  hideComments: 'data-yt-nerfed-comments',
+  hideSuggested: 'data-yt-nerfed-suggested',
+  tableLayout: 'data-yt-nerfed-table',
+  searchOnly: 'data-yt-nerfed-search-only',
 };
 
 let settings = { ...DEFAULTS };
 
 function apply() {
+  const effective = effectiveSettings(settings);
   for (const [key, attr] of Object.entries(ATTRS)) {
-    if (settings[key]) {
-      document.documentElement.removeAttribute(attr);
-    } else {
-      document.documentElement.setAttribute(attr, 'off');
-    }
+    document.documentElement.setAttribute(attr, effective[key] ? 'on' : 'off');
   }
   redirect(location.href);
 }
@@ -24,11 +26,12 @@ function apply() {
 // Keep hidden features from opening: Shorts play in the regular player
 // instead of the Shorts feed, and Playables pages go to the home page.
 function redirect(url) {
+  const { hideShorts, hidePlayables } = effectiveSettings(settings);
   const { pathname } = new URL(url);
   const short = pathname.match(/^\/shorts\/([\w-]+)/);
-  if (settings.hideShorts && short) {
+  if (hideShorts && short) {
     location.replace(`/watch?v=${short[1]}`);
-  } else if (settings.hidePlayables && /^\/playables(\/|$)/.test(pathname)) {
+  } else if (hidePlayables && /^\/playables(\/|$)/.test(pathname)) {
     location.replace('/');
   }
 }
@@ -40,7 +43,7 @@ navigation.addEventListener('navigate', (event) => redirect(event.destination.ur
 // in CSS, so mark it by its label for hide-shorts.css.
 new MutationObserver(() => {
   for (const chip of document.querySelectorAll('yt-chip-cloud-chip-renderer')) {
-    chip.toggleAttribute('data-yt-mild-shorts-chip', chip.textContent.trim() === 'Shorts');
+    chip.toggleAttribute('data-yt-nerfed-shorts-chip', chip.textContent.trim() === 'Shorts');
   }
 }).observe(document, { childList: true, subtree: true });
 
